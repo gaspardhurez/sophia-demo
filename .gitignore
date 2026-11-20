@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# SQLite (données locales, régénérables via migrations)
+*.db
+
+# Contrat OpenAPI (régénérable via `make gen-client`)
+backend/openapi.json
+frontend/src/shared/api/schema.d.ts
+
+# Frontend
+node_modules/
+dist/
+
+# OS
+.DS_Store
+
+# Images téléversées des notes (SOPHIA_MEDIA_DIR) : données perso, comme *.db
+backend/media/
+
+# Journal des appels au LLM (SOPHIA_LLM_LOG_PATH) : il porte le contexte
+# envoyé, donc des notes perso, comme *.db
+backend/llm_calls.jsonl

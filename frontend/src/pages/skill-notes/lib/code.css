@@ -1,0 +1,59 @@
+/*
+ * La coloration des blocs de code (`blocks/code-block.ts`) : les classes
+ * `hljs-*` que pose lowlight, sur des teintes lisibles en clair comme en
+ * sombre. Le texte non coloré garde la couleur du bloc.
+ */
+.notes-marks {
+  --code-comment: #6a737d;
+  --code-keyword: #d73a49;
+  --code-string: #032f62;
+  --code-number: #005cc5;
+  --code-function: #6f42c1;
+  --code-variable: #e36209;
+  --code-builtin: #005cc5;
+}
+
+.dark .notes-marks {
+  --code-comment: #8b949e;
+  --code-keyword: #ff7b72;
+  --code-string: #a5d6ff;
+  --code-number: #79c0ff;
+  --code-function: #d2a8ff;
+  --code-variable: #ffa657;
+  --code-builtin: #79c0ff;
+}
+
+.notes-marks pre .hljs-comment,
+.notes-marks pre .hljs-quote {
+  color: var(--code-comment);
+  font-style: italic;
+}
+
+.notes-marks pre :is(.hljs-keyword, .hljs-meta, .hljs-selector-tag) {
+  color: var(--code-keyword);
+}
+
+.notes-marks pre :is(.hljs-string, .hljs-regexp) {
+  color: var(--code-string);
+}
+
+.notes-marks pre :is(.hljs-number, .hljs-literal) {
+  color: var(--code-number);
+}
+
+.notes-marks pre :is(.hljs-title, .hljs-section) {
+  color: var(--code-function);
+}
+
+.notes-marks pre :is(.hljs-variable, .hljs-template-variable, .hljs-subst) {
+  color: var(--code-variable);
+}
+
+.notes-marks pre :is(.hljs-built_in, .hljs-type) {
+  color: var(--code-builtin);
+}
+
+/* Le prompt d'une ligne de terminal (`$ `) : présent, mais en retrait. */
+.notes-marks pre .hljs-meta.prompt_ {
+  color: var(--code-comment);
+}

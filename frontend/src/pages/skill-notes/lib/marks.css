@@ -1,0 +1,127 @@
+/*
+ * La mise en forme en ligne des notes (relevé Notion §1.7) et sa palette.
+ * `notes-marks` est posée sur l'éditeur par `marks.ts`.
+ *
+ * Palette : les teintes de Notion, une par couleur ; le fond se tire du texte
+ * (même teinte, faible opacité) pour se lire sur la page comme sur une carte.
+ * Le sombre éclaircit les teintes et épaissit le fond. `notes-palette` la
+ * prête à ce qui montre les couleurs hors de l'éditeur (la barre, les menus).
+ */
+.notes-marks,
+.notes-palette {
+  --note-text-gray: #787774;
+  --note-text-brown: #9f6b53;
+  --note-text-orange: #d9730d;
+  --note-text-yellow: #cb912f;
+  --note-text-green: #448361;
+  --note-text-blue: #337ea9;
+  --note-text-purple: #9065b0;
+  --note-text-pink: #c14c8a;
+  --note-text-red: #d44c47;
+  --note-bg-strength: 14%;
+}
+
+.dark .notes-marks,
+.dark .notes-palette {
+  --note-text-gray: #9b9b9b;
+  --note-text-brown: #ba856f;
+  --note-text-orange: #c77d48;
+  --note-text-yellow: #ca9849;
+  --note-text-green: #529e72;
+  --note-text-blue: #379ad3;
+  --note-text-purple: #9d68d3;
+  --note-text-pink: #d15796;
+  --note-text-red: #df5452;
+  --note-bg-strength: 26%;
+}
+
+.notes-marks,
+.notes-palette {
+  --note-bg-gray: color-mix(
+    in oklch,
+    var(--note-text-gray) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-brown: color-mix(
+    in oklch,
+    var(--note-text-brown) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-orange: color-mix(
+    in oklch,
+    var(--note-text-orange) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-yellow: color-mix(
+    in oklch,
+    var(--note-text-yellow) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-green: color-mix(
+    in oklch,
+    var(--note-text-green) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-blue: color-mix(
+    in oklch,
+    var(--note-text-blue) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-purple: color-mix(
+    in oklch,
+    var(--note-text-purple) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-pink: color-mix(
+    in oklch,
+    var(--note-text-pink) var(--note-bg-strength),
+    transparent
+  );
+  --note-bg-red: color-mix(
+    in oklch,
+    var(--note-text-red) var(--note-bg-strength),
+    transparent
+  );
+}
+
+/* Gras 600 ; souligné fin (0,05 em), un peu décollé. */
+.notes-marks strong {
+  font-weight: 600;
+}
+.notes-marks u {
+  text-decoration-thickness: 0.05em;
+  text-underline-offset: 10%;
+}
+
+/* Un fond suit les retours à la ligne, arrondi comme Notion. */
+.notes-marks span[style*='background-color'] {
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Le lien : la couleur du texte, souligné discret, plein au survol. Pas une
+ * mention (`data-mention`), qui a son propre dessin. */
+.notes-marks a:not([data-mention]) {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition: text-decoration-color 0.1s ease-in;
+}
+.notes-marks a:not([data-mention]):hover {
+  text-decoration-color: currentColor;
+}
+
+/*
+ * L'accent des notes : l'encre du domaine (cf. `accentVars`,
+ * `skill-notes-page.tsx`), à la place du bleu de Notion.
+ */
+.notes-accent {
+  --note-accent: var(--note-accent-light, var(--primary));
+}
+.dark .notes-accent {
+  --note-accent: var(--note-accent-dark, var(--primary));
+}

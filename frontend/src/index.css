@@ -1,0 +1,205 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/inter';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Une zone qui défile sans barre au repos : la barre (fine) ne paraît qu'au
+   survol de la zone — le bloc, lui, reste en place. */
+@utility scrollbar-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  &:hover {
+    scrollbar-color: var(--border) transparent;
+  }
+}
+
+@theme inline {
+  /* L'interro (#103) : la pastille d'une question sue rebondit sur le rail ;
+     le tampon ✓ / ✕ se pose au centre de la carte, penché. */
+  --animate-pop: pop 280ms cubic-bezier(0.3, 1.6, 0.5, 1);
+  --animate-stamp: stamp 220ms cubic-bezier(0.3, 1.4, 0.5, 1) both;
+  /* Deux familles, pas une : le corps en Inter (x-height haut, dessin ouvert),
+     les titres en SF Pro (chasse serrée, contraste élevé) — résolu via
+     -apple-system sur macOS, police système ailleurs. C'est ce contraste de
+     texture qui distingue une interface d'un document. */
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-heading: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+
+  /* Élévation : un liseré d'1px à 8% suffit à poser un bouton *sur* la page
+     plutôt que de le dessiner dedans. */
+  --shadow-xs: 0 1px 2px 0 oklch(0.21 0.008 285 / 0.08);
+  --shadow-sm:
+    0 1px 2px 0 oklch(0.21 0.008 285 / 0.08),
+    0 1px 3px 0 oklch(0.21 0.008 285 / 0.06);
+  --shadow-md: 0 2px 8px 0 oklch(0.21 0.008 285 / 0.14);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Rampe neutre TEINTÉE, hue 285 (violet froid), chroma croissante avec la
+ * profondeur. Un gris à chroma 0 lit « non traité » ; une pointe de froid lit
+ * « choisi ». À ces valeurs personne ne perçoit de violet — seulement un gris fini.
+ *
+ * Règle de surface : --background est plus sombre que --card. Une carte se
+ * détache par la lumière, la bordure ne fait que confirmer. Sur deux blancs
+ * purs, une carte n'est qu'un trait posé sur rien.
+ */
+:root {
+  /* La hauteur de l'en-tête de l'app, bordure comprise : une seule source pour
+     les pages qui tiennent exactement dans la fenêtre (calendrier,
+     préparation). */
+  --header-h: 65px;
+  --background: oklch(0.985 0.002 285);
+  --foreground: oklch(0.21 0.008 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.008 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.008 285);
+  --primary: oklch(0.24 0.008 285);
+  --primary-foreground: oklch(0.985 0.002 285);
+  --secondary: oklch(0.968 0.004 285);
+  --secondary-foreground: oklch(0.24 0.008 285);
+  --muted: oklch(0.968 0.004 285);
+  --muted-foreground: oklch(0.556 0.025 285);
+  --accent: oklch(0.968 0.004 285);
+  --accent-foreground: oklch(0.24 0.008 285);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.905 0.006 285);
+  --input: oklch(0.905 0.006 285);
+  /* Bordure au hover / focus d'un champ : on fonce le trait, on n'ajoute pas de halo. */
+  --ring: oklch(0.75 0.018 285);
+  --chart-1: oklch(0.87 0.006 285);
+  --chart-2: oklch(0.556 0.025 285);
+  --chart-3: oklch(0.439 0.022 285);
+  --chart-4: oklch(0.371 0.018 285);
+  --chart-5: oklch(0.269 0.012 285);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0.002 285);
+  --sidebar-foreground: oklch(0.21 0.008 285);
+  --sidebar-primary: oklch(0.24 0.008 285);
+  --sidebar-primary-foreground: oklch(0.985 0.002 285);
+  --sidebar-accent: oklch(0.968 0.004 285);
+  --sidebar-accent-foreground: oklch(0.24 0.008 285);
+  --sidebar-border: oklch(0.905 0.006 285);
+  --sidebar-ring: oklch(0.75 0.018 285);
+}
+
+.dark {
+  --background: oklch(0.155 0.006 285);
+  --foreground: oklch(0.985 0.002 285);
+  --card: oklch(0.215 0.008 285);
+  --card-foreground: oklch(0.985 0.002 285);
+  --popover: oklch(0.215 0.008 285);
+  --popover-foreground: oklch(0.985 0.002 285);
+  --primary: oklch(0.922 0.004 285);
+  --primary-foreground: oklch(0.215 0.008 285);
+  --secondary: oklch(0.279 0.01 285);
+  --secondary-foreground: oklch(0.985 0.002 285);
+  --muted: oklch(0.279 0.01 285);
+  --muted-foreground: oklch(0.715 0.02 285);
+  --accent: oklch(0.279 0.01 285);
+  --accent-foreground: oklch(0.985 0.002 285);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0.02 285);
+  --chart-1: oklch(0.87 0.006 285);
+  --chart-2: oklch(0.556 0.025 285);
+  --chart-3: oklch(0.439 0.022 285);
+  --chart-4: oklch(0.371 0.018 285);
+  --chart-5: oklch(0.269 0.012 285);
+  --sidebar: oklch(0.215 0.008 285);
+  --sidebar-foreground: oklch(0.985 0.002 285);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0.002 285);
+  --sidebar-accent: oklch(0.279 0.01 285);
+  --sidebar-accent-foreground: oklch(0.985 0.002 285);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.556 0.02 285);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  /* Tailwind v4 rend aux boutons le curseur par défaut : tout ce qui se
+     clique montre la main, une fois pour toutes plutôt que classe par classe.
+     Une classe `cursor-*` explicite (glisser, désactivé) l'emporte. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  [role='menuitem']:not([data-disabled]),
+  [role='menuitemcheckbox']:not([data-disabled]),
+  [role='menuitemradio']:not([data-disabled]),
+  [role='option']:not([data-disabled]),
+  [role='tab'],
+  [role='switch'],
+  [role='checkbox'],
+  summary,
+  label[for],
+  select {
+    cursor: pointer;
+  }
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.5) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(-12deg);
+  }
+}

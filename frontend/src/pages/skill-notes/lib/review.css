@@ -1,0 +1,88 @@
+/*
+ * Les commentaires de Sophia (#173, `prod/Notes`) : sa teinte est le rose
+ * de la pastille « 🧠 Sophia » du kit (`CHIP_TONES`, palette Notion), que la
+ * maquette décline — encre, texte, fond doux, liseré des cartes, surlignage
+ * d'un passage (plus soutenu quand sa carte est active), trait pointillé
+ * d'un oubli. Le sombre reprend la teinte de la pastille en sombre
+ * (`#69314C` / `#E5B3CC`) et ses dérivés.
+ *
+ * `review-palette` est posée sur la feuille d'une ressource : la marge et
+ * les décorations de l'éditeur la lisent.
+ */
+.review-palette {
+  --review-ink: #7a4a62;
+  --review-text: #4c2337;
+  --review-chip: #f5e0e9;
+  --review-soft: #fbf2f6;
+  --review-ring: #ebcfdc;
+  --review-ring-active: #e4a9c4;
+  --review-thread: #f3e2ea;
+  --review-mark: #fbe7f0;
+  --review-mark-active: #f5d3e3;
+  --review-dash: #e4a9c4;
+  --review-dash-active: #c9799e;
+}
+
+.dark .review-palette {
+  --review-ink: #e5b3cc;
+  --review-text: #f0d3e1;
+  --review-chip: #69314c;
+  --review-soft: color-mix(in oklch, #d15796 12%, transparent);
+  --review-ring: color-mix(in oklch, #d15796 30%, transparent);
+  --review-ring-active: color-mix(in oklch, #d15796 60%, transparent);
+  --review-thread: color-mix(in oklch, #d15796 22%, transparent);
+  --review-mark: color-mix(in oklch, #d15796 22%, transparent);
+  --review-mark-active: color-mix(in oklch, #d15796 40%, transparent);
+  --review-dash: color-mix(in oklch, #d15796 55%, transparent);
+  --review-dash-active: #d15796;
+}
+
+/* Le passage d'un commentaire ouvert : fond rose, débordant de 2 px. */
+.review-passage {
+  border-radius: 2px;
+  background: var(--review-mark);
+  box-shadow: 0 0 0 2px var(--review-mark);
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s;
+}
+.review-passage.is-active {
+  background: var(--review-mark-active);
+  box-shadow: 0 0 0 2px var(--review-mark-active);
+}
+
+/* Un oubli : entre deux blocs, un rond « + » puis un trait pointillé. */
+.review-gap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+.review-gap-plus {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--review-chip);
+  color: var(--review-ink);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+.review-gap-line {
+  flex: 1;
+  height: 0;
+  border-top: 1.5px dashed var(--review-dash);
+}
+.review-gap.is-active .review-gap-plus {
+  background: var(--review-ink);
+  color: var(--card);
+}
+.review-gap.is-active .review-gap-line {
+  border-top: 2px dashed var(--review-dash-active);
+}

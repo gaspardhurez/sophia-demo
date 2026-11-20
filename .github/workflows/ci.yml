@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend (ruff, pytest, migration + seed)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+      # The initial migration on a fresh database, then the demo dataset
+      # through the API: the same as `make demo`.
+      - run: uv run alembic upgrade head
+      - run: uv run python scripts/seed_demo.py
+
+  frontend:
+    name: Frontend (types, lint, FSD, build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      # The typed client is generated from the backend's OpenAPI schema.
+      - run: uv sync --locked && uv run python scripts/dump_openapi.py
+        working-directory: backend
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: pnpm gen:client
+        working-directory: frontend
+      - run: pnpm exec tsc -b
+        working-directory: frontend
+      - run: pnpm lint && pnpm lint:fsd
+        working-directory: frontend
+      - run: pnpm exec vite build
+        working-directory: frontend
