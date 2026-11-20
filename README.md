@@ -1,5 +1,7 @@
 # Sophia (demo)
 
+[![CI](https://github.com/gaspardhurez/sophia-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/gaspardhurez/sophia-demo/actions/workflows/ci.yml)
+
 Sophia is a personal skill-building app: it turns things you want to learn or achieve into projects, plans them on a calendar, and follows how each skill is actually acquired, from first study to long-term retention.
 
 This repository is a **public snapshot** of a project I develop privately. The private repository holds my own data and working notes, so this version comes without its history and internal documentation, and ships with a fictional demo dataset instead.
