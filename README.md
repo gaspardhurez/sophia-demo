@@ -20,19 +20,19 @@ The demo dataset, in the app.
 
 **Calendar**: the week, the projects of the moment, wishes and commitments.
 
-![Calendar](docs/screenshots/calendar.jpg)
+![Calendar](docs/screenshots/calendar.png)
 
 **A project**: its plan in steps, each with a share of the total and a target on the 10 km time.
 
-![Project page](docs/screenshots/project.jpg)
+![Project page](docs/screenshots/project.png)
 
 **A skill**: its acquisition cycle (study and recall curve, practice, real-life use) and its sessions.
 
-![Skill page](docs/screenshots/skill.jpg)
+![Skill page](docs/screenshots/skill.png)
 
 **Notes on a resource**, with the AI companion's review comments (written by the demo seed, not by a live model): one open, one resolved after a reply.
 
-![Notes and review comments](docs/screenshots/notes-review.jpg)
+![Notes and review comments](docs/screenshots/notes-review.png)
 
 ## Architecture
 
